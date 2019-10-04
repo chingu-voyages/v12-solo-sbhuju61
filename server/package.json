@@ -1,0 +1,14 @@
+{
+  "name": "home_finder",
+  "version": "1.0.0",
+  "description": "HomeFinder helps you find a place to live.",
+  "main": "index.js",
+  "repository": "https://github.com/chingu-voyages/v12-solo-sbhuju61.git",
+  "author": "Saurav Bhuju <sbhuju61@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "pg": "^7.12.1"
+  }
+}
