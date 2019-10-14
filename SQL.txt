@@ -1,0 +1,134 @@
+# Create 'state' Table 
+
+CREATE TABLE state (
+    state_id serial PRIMARY KEY,
+    state_name VARCHAR (100) UNIQUE NOT NULL, 
+    state_abbreviation VARCHAR (5) UNIQUE NOT NULL
+);
+
+# Insert data in 'state' Table
+
+INSERT INTO state (state_name,state_abbreviation)
+VALUES ('Fake_State_1','FK1');
+
+# Create 'city' Table
+CREATE TABLE city (
+    city_id serial PRIMARY KEY,
+    city_name VARCHAR (150) NOT NULL,
+    state_id INTEGER,
+    FOREIGN KEY (state_id) REFERENCES state(state_id)
+);
+
+# Insert data in 'city' Table.
+
+INSERT INTO city (city_name,state_id)
+VALUES ('Fake_City_1',1);
+
+# CREATE 'property_type' Table
+
+CREATE TABLE property_type (
+    property_type_id serial PRIMARY KEY,
+    property_type_name VARCHAR (50) NOT NULL
+);
+
+# Insert data in 'property_type' Table.
+
+INSERT INTO property_type (property_type_name)
+VALUES ('House');
+
+# CREATE 'property_type' Table
+
+CREATE TABLE property_status (
+    property_status_id serial PRIMARY KEY,
+    property_status_name VARCHAR (50) NOT NULL
+);
+
+# Insert data in 'property_status' Table.
+
+INSERT INTO property_status (property_status_name)
+VALUES ('Open');
+
+# CREATE 'property' Table
+CREATE TABLE property (
+    property_id serial PRIMARY KEY,
+    property_name VARCHAR (100) NOT NULL,
+    city_id INTEGER,
+    property_type_id INTEGER,
+    floor_space INTEGER NOT NULL,
+    number_of_bedrooms INTEGER NOT NULL,
+    number_of_bathrooms INTEGER NOT NULL,
+    number_of_garages INTEGER NOT NULL,
+    number_of_parking_lots INTEGER NOT NULL,
+    pet_allowed BOOLEAN NOT NULL,
+    property_description TEXT NOT NULL,
+    property_status_id INTEGER,
+    FOREIGN KEY (city_id) REFERENCES city(city_id),
+    FOREIGN KEY (property_type_id) REFERENCES property_type(property_type_id),
+    FOREIGN KEY (property_status_id) REFERENCES property_status(property_status_id)
+);
+
+INSERT INTO property(property_name,city_id,property_type_id,floor_space,number_of_bedrooms,number_of_bathrooms,
+number_of_garages,number_of_parking_lots,pet_allowed,property_description,property_status_id)
+VALUES('Fake_Home_1',1,1,457,2,5,3,2,true,'#1 House in Fake_City_1',1);
+
+CREATE Table employee (
+    employee_id serial PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL
+);
+
+INSERT INTO employee(first_name,last_name)
+VALUES('Fake','Employee');
+
+CREATE Table in_charge (
+    in_charge_id serial PRIMARY KEY,
+    property_id INTEGER,
+    employee_id INTEGER,
+    date_from DATE NOT NULL DEFAULT CURRENT_DATE,
+    date_to DATE NOT NULL CHECK (date_to >= CURRENT_DATE)
+    FOREIGN KEY (property_id) REFERENCES property(property_id),
+    FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+);
+
+INSERT INTO in_charge (property_id,employee_id,date_to)
+VALUES (1,1,'2019-11-1');
+
+CREATE TABLE zip_code(
+    zip_code_id serial PRIMARY KEY,
+    zip_code CHAR(5),
+    city_id INTEGER,
+    FOREIGN KEY (city_id) REFERENCES city(city_id)
+);
+
+INSERT INTO zip_code (zip_code,city_id)
+VALUES ('00000',1);
+
+CREATE TABLE address(
+    address_id serial PRIMARY KEY,
+    address_line_1 VARCHAR(200) NOT NULL,
+    address_line_2 VARCHAR(200),
+    zip_code_id INTEGER,
+    FOREIGN KEY (zip_code_id) REFERENCES zip_code(zip_code_id)
+);
+
+INSERT INTO address (address_line_1,zip_code_id)
+VALUES ('0 Fake Parkway',1);
+
+CREATE TABLE client (
+    client_id serial PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    address_id INTEGER,
+    FOREIGN KEY (address_id) REFERENCES address (address_id)
+);
+
+INSERT INTO client (first_name,last_name,address_id)
+VALUES ('Fake','Person',1);
+
+
+
+
+
+
+
+
